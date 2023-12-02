@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Large Language Models</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <header>Large Language Models</header>
+  <body>
+    <nav id="navbar">
+      <header>
+        <ul>
+          <li>
+            <a class="nav-link" href="#What_are_Large_Language_Models">What are Large Language Models</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#Main_Components_of_LLMs">Main Components of LLMs</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#How_do_Large_Language_Models_work">How do Large Language Models work</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#Benefits_and_Challenges_of_LLMs">Benefits and Challenges of LLMs</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#Future_advancements_in_LLMs">Future advancements in LLMs</a>
+          </li>
+        </ul>
+        </header>
+    </nav>
+
+    <main id="main-doc">
+      <section class="main-section" id="What_are_Large_Language_Models">
+        <header>
+          <h2>What are Large Language Models</h2>
+        </header>
+        <p>A large language model (LLM) is a Deep Learning algorithm that can perform a variety of tasks.</p>
+        <p>Large Language models use transformer models and are trained using large datasets. This enables LLMs to recognize, translate, generate, or predict text.</p>
+
+        <p>The most common architecture of a Large Language Model is a Transformer model.</p> 
+        
+        <p>Transformer models consist of 2 parts
+          <ul>
+            <li>Encoder</li>
+            <li>Decoder</li>
+          </ul>
+          
+          The model processes data by tokenizing the input, and then uses mathematical equations to discover relationships between the tokens, which enables the computer to see patterns just like a human would.</p>
+
+        <p>Transformer models work with self-attention mechanisms, which enable the model to learn more quickly than traditional models like long short-term memory models (LSTM). Self-attention enables the transformer model to consider different parts of the sequence, or the entire context of the sentence to generate a prediction.</p>
+      </section>
+
+      <section class="main-section" id="Main_Components_of_LLMs">
+        <header>
+          <h2>Main Components of LLMs</h2>
+        </header>
+            <img id="logo" src="https://media.geeksforgeeks.org/wp-content/uploads/20230531140926/Transformer-python-(1).png">
+
+        <p><b>Embedding Layer- </b>This layer creates embeddings from the input text. The input token is tokenized into smaller units, such as words or subwords. Each token is embedded into a continuous vector representation. In this step, the semantic and syntatic information of the input is captured.</p>
+
+    <code>tf.keras.layers.Embedding(input_dim,
+    output_dim, embeddings_initializer='uniform',
+    embeddings_regularizer=None,
+    activity_regularizer=None,
+    embeddings_constraint=None,
+    mask_zero=False,
+    input_length=None,
+    sparse=False,
+    **kwargs)
+    </code>
+
+    <p>This is Tensorflow embedding function. This function turns positive integers (index) into dense vectors of fixed sizes.</p>
+
+        <p><b>Positional Encoding- </b>Added to the input embeddings to provide information regarding the positions of the tokens. This is done because transformers typically do not encode the order of the tokens. Model can process the tokens while taking sequential order into account.</p>
+
+      <code>tfm.vision.layers.PositionalEncoding(
+    initializer: tf.keras.initializers.Initializer =  'zeros',cache_encoding: bool = False,
+        state_prefix: Optional[str] = None, **kwargs)
+      </code>
+
+      <p>The Positional Encoding layer in Tensorflow creates a network layer which adds a sinusoidal positional encoding.</p>
+
+        <p><b>Encoder- </b>The encoder analyzes the input text and creates hidden states which protect the context and meaning of text data. In the core of the transformer architecture, there are multiple encoder layers. The 2 fundamental subcomponents of each layer are:
+        <ul>
+          <li><b>Self Attention Mechanism- </b>Enables the model to weigh the importance of different tokens in the input sequence by computing attention scores. Model can consider dependencies and relationships between different tokens. </li>
+          <li><b>Feed-Forward Neural Network- </b>Occurs after the self-attention step. The feed-forward neural network is independently applied to each token. In this network, there are fully-connected layers with non-linear activation functions, which allow the model to capture the more complex interactions between tokens.</li>
+        </ul>
+        </p>
+
+        <code>
+      self.encoder = tf.keras.Sequential([layers.Input(shape=(28, 28, 1)),
+      layers.Conv2D(16, (3, 3), activation='relu', padding='same', strides=2), 
+      layers.Conv2D(8, (3, 3), activation='relu', padding='same', strides=2)])
+      </code>
+
+      <p>Here, we have an example of an autoencoder. The code for the encoder part (shown above) is using Conv2D layers.</p>
+
+        <p>
+          <b>Decoder Layers- </b>
+          Occurs in some transformer-based models. This layer enables autoregressive generation, which is where the model can generate sequential outputs by attending to the previously generated tokens.
+        </p>
+
+        <code>
+        self.decoder = tf.keras.Sequential([layers.Conv2DTranspose(8, kernel_size=3, strides=2, activation='relu', padding='same'),
+      layers.Conv2DTranspose(16, kernel_size=3, strides=2, activation='relu', padding='same'),
+      layers.Conv2D(1, kernel_size=(3, 3), activation='sigmoid', padding='same')])
+      </code>
+
+      <p>This is an example of a decoder. In this autoencoder, Conv2DTranspose layers are used in the Decoder.</p>
+
+        <p><b>Multi-Head Attention- </b>Oftentimes, transformers employ multi-head attention. This is where self-attention is performed with different learned attention weights at the same time. Multi-head attention is advantageous because the model is able to capture different types of relationships and attend to various parts of the input sequence at the same time.</p>
+
+        <code>
+          tf.keras.layers.MultiHeadAttention(num_heads,key_dim, value_dim=None, dropout=0.0, use_bias=True,output_shape=None, attention_axes=None,kernel_initializer='glorot_uniform',bias_initializer='zeros', kernel_regularizer=None,
+bias_regularizer=None, activity_regularizer=None,
+kernel_constraint=None, bias_constraint=None, **kwargs)
+        </code>
+
+        <p>Here, we have an example of multi-headed attention. This is sample code for the MultiHeadedAttention layer in Keras.</p>
+
+        <p><b>Layer Normalization- </b>Applied after each sub-component or applied layers in the transformer architecture. Helps to stabilize the learning process. Also helps the model in it's ability to generalize across different inputs.</p>
+
+        <p><b>Output Layers- </b>Depends on the specific task. In this example above, we have a linear projection followed by a SoftMax activation. In Language Modeling, this is commonly used to generate the probability distribution over the following token.</p>
+      </section>
+
+      <section class="main-section" id="How_do_Large_Language_Models_work">
+        <header>
+          <h2>How do Large Language Models work</h2>
+        </header>
+
+        <p>Large Language models are based on Transformer models. These models work by receiving an input, encoding it, and then decoding it to receive an output prediction.</p>
+        <p>Before a large language model can receive text input and generate an output prediction, training is required to fulfill general functions. Fine-tuning is also required to perform specific tasks.</p>
+
+        <p><b>Training: </b>Large Language models are pretrained using large textual data sets. These data sets contain trillions of words, and the quality of words in the dataset will affect the language model's performance. The LLM is engaging un unsupervised learning because the datasets are fed to the model without specific directions. </p>
+
+        <p>During the training process the LLM can:
+          <ul>
+            <li>Learn the meaning of words and the relationships between words.</li>
+            <li>Distinguish words based on context.</li>
+          </ul>
+        </p>
+
+        <p><b>Fine-tuning: </b>For a large language model to perform a specific task, it must be fine-tuned to that activity. Fine-tuning optimizes the performance of specific tasks.</p>
+
+        <p><b>Prompt-tuning: </b>Has a similar purpose to fine-tuning. Prompt-tuning trains a model to perform a specific task through either zero-shot prompting of few-shot prompting.</p>
+
+        <p><b>Prompt: </b>Instruction given to a large language model.</p>
+
+        <p><b>Few-shot prompting: </b>Teaches the model to predict an output using a few examples.</p>
+
+        <p><b>Zero-shot prompting: </b>Does not use examples to teach the language model how to respond to inputs.</p>
+      </section>
+
+      <section class="main-section" id="Benefits_and_Challenges_of_LLMs">
+        <header>
+          <h2>Benefits and Challenges of LLMs</h2>
+        </header>
+
+        <h3>Benefits of Large Language Models</h3>
+        
+        <p><b>Useful for many applications: </b>Large Language Models are useful for many applications. They include: <ul>
+          <li>Language Translation</li>
+          <li>Sentiment Analysis</li>
+          <li>Mathematical Equations</li>
+          <li>Question Answering</li>
+          <li>Sentence Completion</li>
+        </ul>
+        </p>
+
+        <p><b>Continuous Improvement: </b>The performance of LLMs will always continue to improve. When more data and parameters are needed, the LLM is continuously growing. The more the LLM learns, the better it will get.</p>
+
+        <p><b>Quick Learning: </b>LLMs are able to learn quickly. That is because they do not require additional weight, resources and parameters for training. LLMs do not require too many examples.</p>
+
+        <h3>Challenges of Large Language Models</h3>
+
+        <p><b>Deployment: </b>In order to successfully deploy an LLM you need these things. 
+        <ul>
+          <li>Deep Learning</li>
+          <li>Transformer Model</li>
+          <li>Technical Expertise</li>
+          <li>Distributed Software/Hardware</li>
+        </ul>
+        </p>
+
+        <p><b>Scaling: </b>Scaling and maintaining Large Language Models can be difficult, time-consuming, and resource-consuming.</p>
+
+        <p><b>Hallucinations: </b>This is when an LLM produces a false output or an output that does not match what the user intended. Large Language Models predict the next syntatically "correct" word or phrase. As a result, LLMs cannot fully interpret human meaning.</p>
+
+        <p><b>Security: </b>When not manages properly, LLMs can be a huge security risk. Users with malicious intents can reprogram the LLM and potentially spread malicious/harmful information. LLMs can leak private/personal information, participate in phishing scams and produce spam.</p>
+
+        <p><b>Bias: </b>The outputs produced by an LLM depend on the data fed into the LLM. If the data is biased (represents one demographic, no diversity), then the outputs produced by the LLM will be biased as well.</p>
+        <p><b>Consent: </b>LLMs are trained on trillions of datasets. Odds are, some of these datasets have not been obtained legally. When web scraping, LLMs have: 
+        <ul>
+          <li>Ignored copyright licenses</li>
+          <li>Plagarized</li>
+          <li>Repurposed content without getting permission from the original owners</li>
+        </ul>
+    When results are produced, there is no way to track where the data comes from. Oftentimes, the creators do not get credit, which can result in copyright infringement issues.</p>
+
+      </section>
+
+      <section class="main-section" id="Future_advancements_in_LLMs">
+        <header>
+          <h2>Future advancements in LLMs</h2>
+        </header>
+
+        <p>As LLMs continue to grow and improve, there is concern regarding what they would do to the job market. In certain fields, LLMs will replace workers.</p>
+
+        <p>LLMs have the ability to increase productivity and efficiency. However, there are some ethical questions that have been posed.</p>
+      </section>
+    </main>
+  </body>
+</html>
